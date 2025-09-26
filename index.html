@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number To NiD</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+    }
+    header h1 {
+      font-size: 2.5rem;
+      animation: fadeInDown 1s ease;
+    }
+    @keyframes fadeInDown {
+      from {opacity:0; transform: translateY(-20px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    .tool-container {
+      background: rgba(255,255,255,0.08);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      max-width: 450px;
+      width: 100%;
+      animation: fadeInUp 1.2s ease;
+    }
+    @keyframes fadeInUp {
+      from {opacity:0; transform: translateY(30px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+    .tool-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #00e6e6;
+      text-shadow: 0 0 10px #00e6e6;
+    }
+    input, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    input {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      outline: none;
+    }
+    button {
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .result-card {
+      margin-top: 1.5rem;
+      background: rgba(255,255,255,0.15);
+      padding: 1rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn {
+      from {opacity:0;}
+      to {opacity:1;}
+    }
+    .loading {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .spinner {
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top: 4px solid #00e6e6;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0,0,0,0.3);
+      font-size: 0.9rem;
+    }
+    footer span {
+      color: #00e6e6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Number To NiD</h1>
+    <p>Convert Bangladeshi Number into  NiD Info</p>
+  </header>  <main>
+    <div class="tool-container">
+      <h2>Enter Bangladeshi Number</h2>
+      <input type="text" id="numberInput" placeholder="e.g. 017XXXXXXXX" />
+      <button onclick="generateNid()">Check NiD Info</button>
+      <div class="loading" id="loading" style="display:none;">
+        <div class="spinner"></div>
+        <p>Check  NiD Info...</p>
+      </div>
+      <div id="result" class="result-card" style="display:none;"></div>
+    </div>
+  </main>  <footer>
+    © 2025 <span>SHADOW JOKER</span>. All rights reserved.
+  </footer>  <script>
+    function generateNid() {
+      const number = document.getElementById('numberInput').value;
+      const resultDiv = document.getElementById('result');
+      const loadingDiv = document.getElementById('loading');
+
+      if(!number.match(/^01[3-9][0-9]{8}$/)) {
+        alert('Please enter a valid Bangladeshi number');
+        return;
+      }
+
+      resultDiv.style.display = 'none';
+      loadingDiv.style.display = 'block';
+
+      setTimeout(() => {
+        loadingDiv.style.display = 'none';
+        const fakeNid = {
+          name: ['Rahim Uddin','Karim Ahmed','Hasina Begum','Ripa Sultana','Jahid Hasan'][Math.floor(Math.random()*5)],
+          father: ['Abdul Kader','Salim Uddin','Nur Hossain','Aziz Rahman'][Math.floor(Math.random()*4)],
+          mother: ['Momena Khatun','Ayesha Begum','Rokeya Banu','Fatema Begum'][Math.floor(Math.random()*4)],
+          dob: `${Math.floor(Math.random()*28+1)}-${Math.floor(Math.random()*12+1)}-${Math.floor(Math.random()*22+1980)}`,
+          nid: Math.floor(Math.random()*9000000000+1000000000),
+          address: ['Dhaka','Chittagong','Khulna','Rajshahi','Sylhet'][Math.floor(Math.random()*5)],
+        };
+
+        resultDiv.innerHTML = `
+          <h3>Generated NiD Info</h3>
+          <p><b>Name:</b> ${fakeNid.name}</p>
+          <p><b>Father:</b> ${fakeNid.father}</p>
+          <p><b>Mother:</b> ${fakeNid.mother}</p>
+          <p><b>DOB:</b> ${fakeNid.dob}</p>
+          <p><b>NiD:</b> ${fakeNid.nid}</p>
+          <p><b>Address:</b> ${fakeNid.address}</p>
+        `;
+        resultDiv.style.display = 'block';
+      }, 2000);
+    }
+  </script></body>
+</html>
